@@ -1,7 +1,7 @@
 import os
 import json
 
-from src.build_index.text_processor import TextProcessor
+from src.build_index.base_processor import BaseProcessor
 from src.core.db.models import Term, Document
 from collections import Counter
 
@@ -19,10 +19,19 @@ def __update_postings(term_id_postings_map: dict):
 
         term_model.save()
 
+def __get_file_terms(file_details: list[tuple(str, str)]) -> list[list[str]]:
+    file_terms = list()
+    for file_contents, file_extension in file_details:
+        processor = BaseProcessor.get_processor(file_extension)
+        file_terms.append(processor.tokenize(file_contents))
+    return file_terms
+        
 
 def handle_create(file_paths: list[str]):
-    file_contents = map(lambda path: open(path).read(-1), file_paths)
-    file_terms: list[list[str]] = list(map(lambda content: TextProcessor.tokenize(content), file_contents))
+    
+    file_details = list(map(lambda path: (open(path).read(-1), os.path.splitext(path)[1][1:]), file_paths))
+
+    file_terms: __get_file_terms(file_details)
 
     vocabulary = set(term for term_list in file_terms for term in term_list)
 
