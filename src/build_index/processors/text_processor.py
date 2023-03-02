@@ -1,8 +1,11 @@
 import re
+
 import nltk
 
+from src.build_index.base_processor import BaseProcessor
 
-class TextProcessor:
+
+class TextProcessor(BaseProcessor):
     lemmatizer = nltk.stem.WordNetLemmatizer()
 
     def tokenize(text: str):

@@ -132,3 +132,5 @@ dmypy.json
 # Custom
 .idea/
 index.db
+
+test/

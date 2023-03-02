@@ -19,19 +19,26 @@ def __update_postings(term_id_postings_map: dict):
 
         term_model.save()
 
-def __get_file_terms(file_details: list[tuple(str, str)]) -> list[list[str]]:
+
+def __get_file_terms(file_details: list[tuple[str, str]]) -> list[list[str]]:
     file_terms = list()
     for file_contents, file_extension in file_details:
         processor = BaseProcessor.get_processor(file_extension)
         file_terms.append(processor.tokenize(file_contents))
     return file_terms
-        
+
+
+def __get_file_metadata(file_path: str) -> tuple[str, str, str]:
+    file_pref, file_extension = os.path.splitext(file_path)
+    file_location = os.path.dirname(file_pref)
+    file_name = os.path.basename(file_pref)
+    return file_location, file_name, file_extension
+
 
 def handle_create(file_paths: list[str]):
-    
-    file_details = list(map(lambda path: (open(path).read(-1), os.path.splitext(path)[1][1:]), file_paths))
+    file_details = list(map(lambda path: (open(path).read(-1), __get_file_metadata(path)[2]), file_paths))
 
-    file_terms: __get_file_terms(file_details)
+    file_terms = __get_file_terms(file_details)
 
     vocabulary = set(term for term_list in file_terms for term in term_list)
 
