@@ -6,9 +6,11 @@ class BaseProcessor(ABC):
     @staticmethod
     def get_processor(extension: str):
         from src.build_index.processors.text_processor import TextProcessor
+        from src.build_index.processors.docx_processor import DocxProcessor
 
         PROCESSOR_MAPPING = {
-            ".txt": TextProcessor
+            ".txt": TextProcessor,
+            ".docx": DocxProcessor
         }
         try:
             return PROCESSOR_MAPPING[extension]
@@ -16,5 +18,5 @@ class BaseProcessor(ABC):
             raise KeyError("Unsupported file extension provided.")
 
     @abstractmethod
-    def tokenize(text: str):
+    def tokenize(self, text: str):
         pass

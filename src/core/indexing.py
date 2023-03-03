@@ -22,9 +22,9 @@ def __update_postings(term_id_postings_map: dict):
 
 def __get_file_terms(file_details: list[tuple[str, str]]) -> list[list[str]]:
     file_terms = list()
-    for file_contents, file_extension in file_details:
+    for file_path, file_extension in file_details:
         processor = BaseProcessor.get_processor(file_extension)
-        file_terms.append(processor.tokenize(file_contents))
+        file_terms.append(processor.tokenize(file_path))
     return file_terms
 
 
@@ -36,7 +36,7 @@ def __get_file_metadata(file_path: str) -> tuple[str, str, str]:
 
 
 def handle_create(file_paths: list[str]):
-    file_details = list(map(lambda path: (open(path).read(-1), __get_file_metadata(path)[2]), file_paths))
+    file_details = list(map(lambda path: (path, __get_file_metadata(path)[2]), file_paths))
 
     file_terms = __get_file_terms(file_details)
 
