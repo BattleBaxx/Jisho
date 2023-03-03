@@ -1,0 +1,2 @@
+this is a random file
+to test the filesystem indexer
