@@ -24,7 +24,7 @@ def __get_file_terms(file_details: list[tuple[str, str]]) -> list[list[str]]:
     file_terms = list()
     for file_path, file_extension in file_details:
         processor = BaseProcessor.get_processor(file_extension)
-        file_terms.append(processor.tokenize(file_path))
+        file_terms.append(processor.preprocessed_tokens(file_path=file_path))
     return file_terms
 
 
