@@ -3,3 +3,5 @@ pydantic
 nltk
 peewee
 docx2txt
+PyPDF2
+pytesseract

@@ -4,6 +4,7 @@ import re
 import nltk
 
 
+
 class BaseProcessor(ABC):
     lemmatizer = nltk.stem.WordNetLemmatizer()
 
@@ -11,14 +12,22 @@ class BaseProcessor(ABC):
     def get_processor(extension: str):
         from src.build_index.processors.text_processor import TextProcessor
         from src.build_index.processors.docx_processor import DocxProcessor
+        from src.build_index.processors.image_processor import ImageProcessor
+        from src.build_index.processors.pdf_processor import PdfProcessor
 
         PROCESSOR_MAPPING = {
             ".txt": TextProcessor(),
-            ".docx": DocxProcessor()
+            ".docx": DocxProcessor(),
+            ".png": ImageProcessor(),
+            ".jpeg": ImageProcessor(),
+            ".ppm": ImageProcessor(),
+            ".tiff": ImageProcessor(),
+            ".bmp": ImageProcessor(),
+            ".pdf": PdfProcessor()
         }
         try:
             return PROCESSOR_MAPPING[extension]
-        except _ as KeyError:
+        except KeyError:
             raise KeyError("Unsupported file extension provided.")
 
     def preprocessed_tokens(self, file_path: str):
