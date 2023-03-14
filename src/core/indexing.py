@@ -3,6 +3,7 @@ import os
 from collections import Counter
 
 from src.build_index.base_processor import BaseProcessor
+from src.build_index.processor_factory import ProcessorFactory
 from src.core.db.models import Document, Term
 
 
@@ -20,7 +21,7 @@ def __update_doc_lists(term_id_doc_set_map: dict):
 def __get_file_terms(file_details: list[tuple[str, str]]) -> list[list[str]]:
     file_terms = list()
     for file_path, file_extension in file_details:
-        processor = BaseProcessor.get_processor(file_extension)
+        processor = ProcessorFactory.get_processor(file_extension)
         file_terms.append(processor.preprocessed_tokens(file_path=file_path))
     return file_terms
 

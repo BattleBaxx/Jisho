@@ -18,18 +18,12 @@ class DocumentRetriever:
 
         for term_id, frequency in posting_dict.items():
             term_model = Term.get_by_id(term_id)
-            # print(frequency)
-            # print(max_f)
-            # print(N)
-            # print(term_model.df)
             tf_idf = (frequency / max_f) * (N / term_model.df)
-            # print(tf_idf)
             document_vector[int(term_id) - 1] = tf_idf
 
-        # print(document_vector)
         return document_vector
 
-    def retrieve_relevant_documents(self, query_terms: list[str]):
+    def retrieve_relevant_documents(self, query_terms: list[str]) -> dict:
         """
         :param query_terms: a list of query term strings
         :return: the identifiers of the documents that contain any of the query terms
@@ -48,17 +42,17 @@ class DocumentRetriever:
             posting_docs = json.loads(term_model.doc_list)
             document_id_set = document_id_set.union(set(posting_docs))
 
+        retrieved_docs = list(document_id_set)
         query_postings_dict = {term_id_map[term]: freq for term, freq in query_counts.items()}
         query_vector = self.get_document_vector(query_postings_dict, N, document_dimension)
 
-        document_matrix = np.zeros((len(document_id_set), document_dimension))
+        document_matrix = np.zeros((len(retrieved_docs), document_dimension))
 
-        for index, document_id in enumerate(document_id_set):
+        for index, document_id in enumerate(retrieved_docs):
             document = Document.get_by_id(document_id)
             postings_dict = json.loads(document.postings)
             document_matrix[index] = self.get_document_vector(postings_dict, N, document_dimension)
 
-        print(query_vector)
-        print(document_matrix)
+        similarities = cosine_similarity(document_matrix, [query_vector])
 
-        print(cosine_similarity(document_matrix, [query_vector]))
+        return {doc_id: similarity for doc_id, similarity in zip(retrieved_docs, similarities)}
