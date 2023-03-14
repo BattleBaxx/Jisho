@@ -5,7 +5,7 @@ from peewee import TextField, AutoField, BlobField, IntegerField
 class Term(Base):
     term_id = AutoField()
     term = TextField(unique=True)
-    posting_list = BlobField(default="{}")
+    doc_list = BlobField(default="[]")
     df = IntegerField(null=True)
 
     def __str__(self):

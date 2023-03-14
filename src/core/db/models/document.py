@@ -1,4 +1,11 @@
-from peewee import AutoField, CharField, TextField, BigIntegerField, TimestampField
+from peewee import (
+    AutoField,
+    CharField,
+    TextField,
+    BigIntegerField,
+    TimestampField,
+    BlobField,
+)
 
 from src.core.db.models.base import Base
 
@@ -6,6 +13,7 @@ from src.core.db.models.base import Base
 class Document(Base):
     document_id = AutoField()
     file_name = CharField(max_length=255)
+    postings = BlobField(default="{}")
     file_location = TextField(null=True)
     file_extension = CharField(null=True)
     user = CharField(null=True)

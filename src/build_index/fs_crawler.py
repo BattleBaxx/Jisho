@@ -8,7 +8,7 @@ class FilesystemCrawler:
         self.extensions = set(extensions)
 
     def get_file_paths(self) -> Generator[str, None, None]:
-        for(dir_path, dir_name, file_names) in os.walk(self.base_path):
+        for dir_path, dir_name, file_names in os.walk(self.base_path):
             for file_name in file_names:
                 full_file_name = os.path.join(dir_path, file_name)
                 file_extension = os.path.splitext(full_file_name)[-1].lower()
