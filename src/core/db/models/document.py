@@ -1,11 +1,4 @@
-from peewee import (
-    AutoField,
-    CharField,
-    TextField,
-    BigIntegerField,
-    TimestampField,
-    BlobField,
-)
+from peewee import AutoField, BigIntegerField, BlobField, CharField, TextField, TimestampField
 
 from src.core.db.models.base import Base
 

@@ -1,9 +1,9 @@
-import os
 import json
+import os
+from collections import Counter
 
 from src.build_index.base_processor import BaseProcessor
-from src.core.db.models import Term, Document
-from collections import Counter
+from src.core.db.models import Document, Term
 
 
 def __update_doc_lists(term_id_doc_set_map: dict):
@@ -33,9 +33,7 @@ def __get_file_location(file_path: str) -> tuple[str, str, str]:
 
 
 def handle_create(file_paths: list[str]):
-    file_details = list(
-        map(lambda path: (path, __get_file_location(path)[2]), file_paths)
-    )
+    file_details = list(map(lambda path: (path, __get_file_location(path)[2]), file_paths))
 
     file_terms = __get_file_terms(file_details)
 
@@ -53,9 +51,7 @@ def handle_create(file_paths: list[str]):
     for doc_index, file_path in enumerate(file_paths):
         file_location, file_name, file_extension = __get_file_location(file_path)
         doc_terms = file_terms[doc_index]
-        term_freq_dict = {
-            term_id_map[term]: freq for term, freq in dict(Counter(doc_terms)).items()
-        }
+        term_freq_dict = {term_id_map[term]: freq for term, freq in dict(Counter(doc_terms)).items()}
         doc = Document.create(
             file_name=file_name,
             file_location=file_location,

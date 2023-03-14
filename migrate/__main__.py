@@ -1,6 +1,6 @@
-from src.core.db.connection import DbConnection
 import sys
 
+from src.core.db.connection import DbConnection
 from src.core.db.models.document import Document
 from src.core.db.models.term import Term
 
@@ -13,4 +13,3 @@ if arg == "up":
 
 if arg == "down":
     db.drop_tables([Term, Document])
-

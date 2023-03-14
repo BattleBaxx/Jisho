@@ -8,4 +8,3 @@ crawler = FilesystemCrawler(config["BASE_PATH"], config["EXTENSIONS"])
 file_list = list(crawler.get_file_paths())
 
 handle_create(file_list)
-    

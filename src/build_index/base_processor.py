@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
 import re
+from abc import ABC, abstractmethod
 
 import nltk
-
 
 
 class BaseProcessor(ABC):
@@ -10,10 +9,10 @@ class BaseProcessor(ABC):
 
     @staticmethod
     def get_processor(extension: str):
-        from src.build_index.processors.text_processor import TextProcessor
         from src.build_index.processors.docx_processor import DocxProcessor
         from src.build_index.processors.image_processor import ImageProcessor
         from src.build_index.processors.pdf_processor import PdfProcessor
+        from src.build_index.processors.text_processor import TextProcessor
 
         PROCESSOR_MAPPING = {
             ".txt": TextProcessor(),
@@ -23,7 +22,7 @@ class BaseProcessor(ABC):
             ".ppm": ImageProcessor(),
             ".tiff": ImageProcessor(),
             ".bmp": ImageProcessor(),
-            ".pdf": PdfProcessor()
+            ".pdf": PdfProcessor(),
         }
         try:
             return PROCESSOR_MAPPING[extension]

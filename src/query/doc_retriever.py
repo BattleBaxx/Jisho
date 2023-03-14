@@ -1,9 +1,11 @@
+import json
 from collections import Counter
 
-from src.core.db.models import Term, Document
-import json
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+
+from src.core.db.models import Document, Term
+
 
 class DocumentRetriever:
     def __init__(self):

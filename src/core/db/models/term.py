@@ -1,5 +1,6 @@
+from peewee import AutoField, BlobField, IntegerField, TextField
+
 from src.core.db.models.base import Base
-from peewee import TextField, AutoField, BlobField, IntegerField
 
 
 class Term(Base):
