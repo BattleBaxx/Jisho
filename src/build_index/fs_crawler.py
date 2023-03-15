@@ -1,5 +1,5 @@
 import os
-from typing import Generator
+from typing import Iterator
 
 from src.core.util import get_file_metadata
 
@@ -10,7 +10,7 @@ class FilesystemCrawler:
         self.extensions = set(extensions)
         self.last_indexed_time = last_indexed_time
 
-    def get_file_paths(self) -> Generator[str, None, None]:
+    def get_file_paths(self) -> Iterator[str]:
         for dir_path, dir_name, file_names in os.walk(self.base_path):
             for file_name in file_names:
                 full_file_name = os.path.join(dir_path, file_name)
