@@ -8,9 +8,6 @@ from src.core.db.models import Document, Term
 
 
 class DocumentRetriever:
-    def __init__(self):
-        pass
-
     def get_document_vector(self, posting_dict: dict, N: int, document_dimension: int) -> np.array:
         document_vector = np.zeros(document_dimension)
 
