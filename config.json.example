@@ -1,0 +1,6 @@
+{
+  "BASE_PATH":"/folder",
+  "EXTENSIONS": [
+    ".txt"
+  ]
+}
