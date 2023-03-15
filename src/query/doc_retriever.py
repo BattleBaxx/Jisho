@@ -47,12 +47,14 @@ class DocumentRetriever:
         query_vector = self.get_document_vector(query_postings_dict, N, document_dimension)
 
         document_matrix = np.zeros((len(retrieved_docs), document_dimension))
+        document_list: list[Document] = []
 
         for index, document_id in enumerate(retrieved_docs):
             document = Document.get_by_id(document_id)
+            document_list.append(document)
             postings_dict = json.loads(document.postings)
             document_matrix[index] = self.get_document_vector(postings_dict, N, document_dimension)
 
-        similarities = cosine_similarity(document_matrix, [query_vector])
+        similarities = cosine_similarity(document_matrix, [query_vector]).flatten()
 
-        return {doc_id: similarity for doc_id, similarity in zip(retrieved_docs, similarities)}
+        return {document: similarity for document, similarity in zip(document_list, similarities)}
