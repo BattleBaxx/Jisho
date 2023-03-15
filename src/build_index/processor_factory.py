@@ -8,6 +8,7 @@ PROCESSOR_MAPPING = {
     ".docx": DocxProcessor,
     ".png": ImageProcessor,
     ".jpeg": ImageProcessor,
+    ".jpg": ImageProcessor,
     ".ppm": ImageProcessor,
     ".tiff": ImageProcessor,
     ".bmp": ImageProcessor,
