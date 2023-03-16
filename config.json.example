@@ -2,5 +2,6 @@
   "BASE_PATH":"/folder",
   "EXTENSIONS": [
     ".txt"
-  ]
+  ],
+  "DB_PATH": "/path/to/db_file"
 }

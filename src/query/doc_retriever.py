@@ -1,10 +1,12 @@
 import json
-from collections import Counter
+from collections import Counter, namedtuple
 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 from src.core.db.models import Document, Term
+
+DocRelevance = namedtuple("DocRelevance", "document relevance")
 
 
 class DocumentRetriever:
@@ -20,7 +22,7 @@ class DocumentRetriever:
 
         return document_vector
 
-    def retrieve_relevant_documents(self, query_terms: list[str]) -> dict:
+    def retrieve_relevant_documents(self, query_terms: list[str]) -> list[DocRelevance]:
         """
         :param query_terms: a list of query term strings
         :return: the identifiers of the documents that contain any of the query terms
@@ -54,4 +56,10 @@ class DocumentRetriever:
 
         similarities = cosine_similarity(document_matrix, [query_vector]).flatten()
 
-        return {document: similarity for document, similarity in zip(document_list, similarities)}
+        doc_relevance_list = [
+            DocRelevance(document, similarity)
+            for document, similarity in zip(document_list, similarities)
+            if not document.deleted
+        ]
+        doc_relevance_list = sorted(doc_relevance_list, key=lambda x: x.relevance, reverse=True)
+        return doc_relevance_list

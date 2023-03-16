@@ -1,7 +1,7 @@
-from src.build_index.processors.docx_processor import DocxProcessor
-from src.build_index.processors.image_processor import ImageProcessor
-from src.build_index.processors.pdf_processor import PdfProcessor
-from src.build_index.processors.text_processor import TextProcessor
+from src.index.processors.docx_processor import DocxProcessor
+from src.index.processors.image_processor import ImageProcessor
+from src.index.processors.pdf_processor import PdfProcessor
+from src.index.processors.text_processor import TextProcessor
 
 PROCESSOR_MAPPING = {
     ".txt": TextProcessor,

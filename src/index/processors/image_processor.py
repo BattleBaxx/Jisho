@@ -1,7 +1,7 @@
 import pytesseract
 from PIL import Image
 
-from src.build_index.base_processor import BaseProcessor
+from src.index.base_processor import BaseProcessor
 
 
 class ImageProcessor(BaseProcessor):

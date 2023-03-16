@@ -1,5 +1,9 @@
 from peewee import SqliteDatabase
 
+from src.core.config import Config
+
+config = Config.get_config()
+
 
 class DbConnection:
     connection = None
@@ -7,7 +11,7 @@ class DbConnection:
     @staticmethod
     def get_connection():
         if DbConnection.connection is None:
-            DbConnection.connection = SqliteDatabase("index.db")
+            DbConnection.connection = SqliteDatabase(config["DB_PATH"])
             DbConnection.connection.connect()
 
         return DbConnection.connection
