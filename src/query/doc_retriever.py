@@ -57,7 +57,9 @@ class DocumentRetriever:
         similarities = cosine_similarity(document_matrix, [query_vector]).flatten()
 
         doc_relevance_list = [
-            DocRelevance(document, similarity) for document, similarity in zip(document_list, similarities)
+            DocRelevance(document, similarity)
+            for document, similarity in zip(document_list, similarities)
+            if not document.deleted
         ]
         doc_relevance_list = sorted(doc_relevance_list, key=lambda x: x.relevance, reverse=True)
         return doc_relevance_list

@@ -64,9 +64,7 @@ class Indexer:
             doc_terms = file_terms[doc_index]
             term_freq_dict = {term_id_map[term]: freq for term, freq in dict(Counter(doc_terms)).items()}
             doc, _ = Document.get_or_create(
-                file_name=file_name,
-                file_location=file_location,
-                file_extension=file_extension,
+                file_name=file_name, file_location=file_location, file_extension=file_extension, deleted=False
             )
             doc.postings = json.dumps(term_freq_dict)
             doc.user, doc.size, doc.modified = get_file_metadata(file_path)
@@ -85,3 +83,14 @@ class Indexer:
 
         for term_id, doc_set in term_id_doc_set_map.items():
             self.update_doc_lists(term_id, doc_set)
+
+    def mark_deleted(self, file_paths: list[str]):
+        file_path_set = set(file_paths)
+        print(file_path_set)
+
+        all_indexed_documents = list(Document.select())
+        for doc in all_indexed_documents:
+            doc_full_file_path = os.path.join(doc.file_location, (doc.file_name + doc.file_extension))
+            if doc_full_file_path not in file_path_set:
+                doc.deleted = True
+                doc.save()

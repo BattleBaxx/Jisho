@@ -1,4 +1,4 @@
-from peewee import AutoField, BigIntegerField, BlobField, CharField, TextField, TimestampField
+from peewee import AutoField, BigIntegerField, BlobField, BooleanField, CharField, TextField, TimestampField
 
 from src.core.db.models.base import Base
 
@@ -12,3 +12,4 @@ class Document(Base):
     user = CharField(null=True)
     size = BigIntegerField(null=True)
     modified = TimestampField(null=True)
+    deleted = BooleanField(default=False)
