@@ -1,6 +1,6 @@
 from docx2txt import docx2txt
 
-from src.build_index.base_processor import BaseProcessor
+from src.index.base_processor import BaseProcessor
 
 
 class DocxProcessor(BaseProcessor):

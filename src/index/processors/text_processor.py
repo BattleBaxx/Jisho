@@ -1,4 +1,4 @@
-from src.build_index.base_processor import BaseProcessor
+from src.index.base_processor import BaseProcessor
 
 
 class TextProcessor(BaseProcessor):
