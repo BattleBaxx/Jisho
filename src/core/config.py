@@ -1,14 +1,17 @@
 import json
+from pathlib import Path
+
+current_path = Path(__file__)
+config_path = current_path.parents[2] / "config.json"
 
 
 class Config:
-    # TODO find / create better solution
     config = None
 
     @staticmethod
-    def get_config(path: str) -> dict:
+    def get_config() -> dict:
         if Config.config is None:
-            config_file = open(path)
-            Config.config = json.load(config_file)
+            config_contents = open(config_path).read(-1)
+            Config.config = json.loads(config_contents)
 
         return Config.config
