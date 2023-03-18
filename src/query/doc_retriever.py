@@ -22,11 +22,26 @@ class DocumentRetriever:
 
         return document_vector
 
-    def retrieve_relevant_documents(self, query_terms: list[str]) -> list[DocRelevance]:
+    def __filter_documents(self, document_id_list: list[str], filters: dict):
+        document_data = [Document.get(Document.document_id == document_id) for document_id in document_id_list]
+
+        filtered_docs = list(filter(lambda doc: all((
+            not filters["extension"] or doc.file_extension == filters["extension"],
+            not filters["min_size"] or doc.size >= filters["min_size"],
+            not filters["max_size"] or doc.size <= filters["max_size"],
+            not filters["start_time"] or doc.modified >= filters["start_time"].replace(tzinfo=None),
+            not filters["end_time"] or doc.modified <= filters["end_time"].replace(tzinfo=None),
+            not filters["file_location"] or filters["file_location"] in doc.file_location,
+        )), document_data))
+
+        return [doc.document_id for doc in filtered_docs]
+
+    def retrieve_relevant_documents(self, query_data: dict) -> list[DocRelevance]:
         """
-        :param query_terms: a list of query term strings
+        :param: query_data: Contains all the query information. Schema same as Search Schema
         :return: the identifiers of the documents that contain any of the query terms
         """
+        query_terms = query_data["query"].split(" ")
         document_dimension = len(Term.select())
         N = len(Document.select())
 
@@ -41,7 +56,7 @@ class DocumentRetriever:
             posting_docs = json.loads(term_model.doc_list)
             document_id_set = document_id_set.union(set(posting_docs))
 
-        retrieved_docs = list(document_id_set)
+        retrieved_docs = self.__filter_documents(document_id_list=list(document_id_set), filters=query_data)
         query_postings_dict = {term_id_map[term]: freq for term, freq in query_counts.items()}
         query_vector = self.get_document_vector(query_postings_dict, N, document_dimension)
 
