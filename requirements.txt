@@ -5,3 +5,6 @@ peewee
 docx2txt
 PyPDF2
 pytesseract
+fastapi
+uvicorn
+sklearn-learn

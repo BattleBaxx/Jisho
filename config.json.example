@@ -1,7 +1,10 @@
 {
+  "APP_TITLE": "Jisho",
   "BASE_PATH":"/folder",
   "EXTENSIONS": [
     ".txt"
   ],
-  "DB_PATH": "/path/to/db_file"
+  "DB_PATH": "/path/to/db_file",
+  "SERVER_HOST": "localhost",
+  "SERVER_PORT": 8080
 }
