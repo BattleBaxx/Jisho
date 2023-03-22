@@ -7,4 +7,4 @@ PyPDF2
 pytesseract
 fastapi
 uvicorn
-sklearn-learn
+scikit-learn
