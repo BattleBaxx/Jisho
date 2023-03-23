@@ -78,6 +78,9 @@ class DocumentRetriever:
         query_counts = dict(Counter(query_terms_exist))
 
         retrieved_docs = self.__filter_documents(document_id_list=list(document_id_set), filters=query_data.dict())
+        if len(retrieved_docs) == 0:
+            return []
+
         query_postings_dict = {term_id_map[term]: freq for term, freq in query_counts.items()}
         query_vector = self.get_document_vector(query_postings_dict, N, document_dimension)
 
