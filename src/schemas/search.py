@@ -2,8 +2,6 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from src.query.doc_retriever import DocRelevance
-
 
 class SearchBase(BaseModel):
     query: str
@@ -18,5 +16,15 @@ class SearchRequest(SearchBase):
     file_location: str | None = None
 
 
+class DocumentRelevance(BaseModel):
+    file_name: str
+    file_location: str
+    file_extension: str
+    user: str
+    size: str
+    modified: datetime
+    relevance: float
+
+
 class SearchResponse(SearchBase):
-    doc_List: list[DocRelevance]
+    doc_list: list[DocumentRelevance]
